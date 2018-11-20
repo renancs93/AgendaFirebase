@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,6 +35,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import br.edu.ifspsaocarlos.agendafirebase.R;
 import br.edu.ifspsaocarlos.agendafirebase.adapter.ContatoAdapter;
@@ -212,30 +215,27 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-    private void updateUI(String nomeContato)
+    private void updateUI(final String nomeContato)
     {
 
         if (nomeContato==null) {
-             query= databaseReference.orderByChild("nome");
-             options = new FirebaseRecyclerOptions.Builder<Contato>().setQuery(query, Contato.class).build();
-
-            adapter = new ContatoAdapter(options);
-            recyclerView.setAdapter(adapter);
-            adapter.startListening();
-
-
-            empty.setText(getResources().getString(R.string.lista_vazia));
-            fab.show();
+            query= databaseReference.orderByChild("nome");
         }
-        else {
+        else if (!nomeContato.isEmpty()){
 
-
-             //EXERCICIO: insira aqui o código para buscar somente os contatos que atendam
-            //           ao criterio de busca digitado pelo usuário na SearchView.
-
-
+            //Busca pelo Nome digitado na Busca
+            query = databaseReference.orderByChild("nome").startAt(nomeContato).endAt(nomeContato+"\uf8ff");
 
         }
+        options = new FirebaseRecyclerOptions.Builder<Contato>().setQuery(query, Contato.class).build();
+
+        adapter = new ContatoAdapter(options);
+        recyclerView.setAdapter(adapter);
+        adapter.startListening();
+
+
+        empty.setText(getResources().getString(R.string.lista_vazia));
+        fab.show();
 
      }
 
