@@ -1,12 +1,49 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context="br.edu.ifspsaocarlos.agendafirebase.activity.MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="br.edu.ifspsaocarlos.agendafirebase.activity.MainActivity">
     <item
         android:id="@+id/pesqContato"
         app:showAsAction="ifRoom"
         android:title="@string/nome_do_contato"
         app:actionViewClass="android.support.v7.widget.SearchView"
         />
+    <item
+        android:id="@+id/menu_ordenar"
+        android:title="Ordernar"
+        app:showAsAction="always"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        >
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/menu_todos"
+                    android:title="@string/txt_todos"
+                    app:showAsAction="never"
+                    />
+                <item
+                    android:id="@+id/menu_amigos"
+                    android:title="@string/txt_amigos"
+                    app:showAsAction="never"
+                    />
+                <item
+                    android:id="@+id/menu_familia"
+                    android:title="@string/txt_familia"
+                    app:showAsAction="never"
+                    />
+                <item
+                    android:id="@+id/menu_trabalho"
+                    android:title="@string/txt_trabalho"
+                    app:showAsAction="never"
+                    />
+                <item
+                    android:id="@+id/menu_outros"
+                    android:title="@string/txt_outro"
+                    app:showAsAction="never"
+                    />
+            </group>
+        </menu>
+    </item>
 
  </menu>
 

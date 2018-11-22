@@ -15,11 +15,18 @@
     <string name="contato_alterado">Informações do contato alteradas</string>
     <string name="contato_apagado">Contato removido</string>
 
+    <!--Spinner e Itens Menu Busca-->
+    <string name="txt_todos">Todos</string>
+    <string name="txt_amigos">Amigos</string>
+    <string name="txt_familia">Família</string>
+    <string name="txt_trabalho">Trabalho</string>
+    <string name="txt_outro">Outro</string>
+
     <string-array name="tipos_contatos">
-        <item>Amigo</item>
-        <item>Familia</item>
-        <item>Trabalho</item>
-        <item>Outro</item>
+        <item>@string/txt_amigos</item>
+        <item>@string/txt_familia</item>
+        <item>@string/txt_trabalho</item>
+        <item>@string/txt_outro</item>
     </string-array>
     
 </resources>

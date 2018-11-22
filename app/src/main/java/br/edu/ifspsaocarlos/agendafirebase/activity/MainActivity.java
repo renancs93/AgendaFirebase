@@ -22,6 +22,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity{
         if (!searchView.isIconified()) {
 
             searchView.onActionViewCollapsed();
-            updateUI(null);
+            updateUI(null, null);
 
         } else {
             super.onBackPressed();
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity{
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
 
-            updateUI(query);
+            updateUI(query, null);
             searchView.clearFocus();
 
         }
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        updateUI(null);
+        updateUI(null, null);
         setupRecyclerView();
 
 
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity{
 
                 searchView.setQuery("", false);
 
-                updateUI(null);
+                updateUI(null, null);
 
             }
         });
@@ -185,6 +186,28 @@ public class MainActivity extends AppCompatActivity{
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+
+            case R.id.menu_todos:
+                updateUI(null, item.getTitle().toString());
+            case R.id.menu_amigos:
+                updateUI(null, item.getTitle().toString());
+            case R.id.menu_familia:
+                updateUI(null, item.getTitle().toString());
+            case R.id.menu_trabalho:
+                updateUI(null, item.getTitle().toString());
+            case R.id.menu_outros:
+                updateUI(null, item.getTitle().toString());
+
+
+            default:
+                item.setChecked(true);
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -215,18 +238,31 @@ public class MainActivity extends AppCompatActivity{
 
 
 
-    private void updateUI(final String nomeContato)
+    private void updateUI(final String nomeContato, String tipoContato)
     {
 
-        if (nomeContato==null) {
+        //redefinição da variavel para buscar todos
+        if(tipoContato == getString(R.string.txt_todos)){
+           tipoContato = null;
+        }
+
+
+        if (nomeContato==null && tipoContato==null){
             query= databaseReference.orderByChild("nome");
         }
-        else if (!nomeContato.isEmpty()){
+        else if (nomeContato != null && !nomeContato.isEmpty()){
 
-            //Busca pelo Nome digitado na Busca
+            //Busca pelo NOME digitado na Busca
             query = databaseReference.orderByChild("nome").startAt(nomeContato).endAt(nomeContato+"\uf8ff");
 
         }
+        else if(tipoContato != null){
+
+            //Busca pelo pelo TIPO de contato
+            query = databaseReference.orderByChild("tipo").equalTo(tipoContato);
+
+        }
+
         options = new FirebaseRecyclerOptions.Builder<Contato>().setQuery(query, Contato.class).build();
 
         adapter = new ContatoAdapter(options);
