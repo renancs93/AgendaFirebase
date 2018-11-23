@@ -38,6 +38,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import br.edu.ifspsaocarlos.agendafirebase.R;
 import br.edu.ifspsaocarlos.agendafirebase.adapter.ContatoAdapter;
@@ -60,7 +61,6 @@ public class MainActivity extends AppCompatActivity{
     private DatabaseReference databaseReference;
     private Query query;
     private FirebaseRecyclerOptions<Contato> options;
-
 
     @Override
     public void onBackPressed() {
@@ -176,12 +176,8 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-
-
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         searchView.setIconifiedByDefault(true);
-
 
         return true;
     }
@@ -189,24 +185,33 @@ public class MainActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (item.getItemId()){
+        String title = (String) item.getTitle();
+        String[] arrayContatos = getResources().getStringArray(R.array.tipos_contatos);
 
-            case R.id.menu_todos:
-                updateUI(null, item.getTitle().toString());
-            case R.id.menu_amigos:
-                updateUI(null, item.getTitle().toString());
-            case R.id.menu_familia:
-                updateUI(null, item.getTitle().toString());
-            case R.id.menu_trabalho:
-                updateUI(null, item.getTitle().toString());
-            case R.id.menu_outros:
-                updateUI(null, item.getTitle().toString());
-
-
-            default:
-                item.setChecked(true);
-                return super.onOptionsItemSelected(item);
+        if (Arrays.asList(arrayContatos).contains(title) || title == getString(R.string.txt_todos)){
+            updateUI(null, item.getTitle().toString());
         }
+
+        item.setChecked(true);
+        return super.onOptionsItemSelected(item);
+
+//        switch (item.getItemId()){
+//
+//            case R.id.menu_todos:
+//                updateUI(null, item.getTitle().toString());
+//            case R.id.menu_amigos:
+//                updateUI(null, item.getTitle().toString());
+//            case R.id.menu_familia:
+//                updateUI(null, item.getTitle().toString());
+//            case R.id.menu_trabalho:
+//                updateUI(null, item.getTitle().toString());
+//            case R.id.menu_outros:
+//                updateUI(null, item.getTitle().toString());
+//            default:
+//                item.setChecked(true);
+//                return super.onOptionsItemSelected(item);
+//        }
+
     }
 
     @Override
